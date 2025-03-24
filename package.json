@@ -1,0 +1,13 @@
+{
+  "name": "express-ts-wizard",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "chmod +x bin/*.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "CLI for scaffolding TypeScript Express apps and generating modules."
+}
