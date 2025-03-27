@@ -10,6 +10,12 @@ export class ${ModuleName}Controller {
   }
 
   @CatchErrors
+  async create(req: Request, res: Response): Promise<void> {
+    const ${moduleName} = await this.${moduleName}Service.create(req.body);
+    res.status(200).json(${moduleName});
+  }
+  
+  @CatchErrors
   async findAll(req: Request, res: Response): Promise<void> {
     const ${moduleName} = await this.${moduleName}Service.findAll();
     res.status(200).json(${moduleName});
@@ -22,14 +28,8 @@ export class ${ModuleName}Controller {
   }
 
   @CatchErrors
-  async create(req: Request, res: Response): Promise<void> {
-    const ${moduleName} = await this.${moduleName}Service.create(req.body);
-    res.status(200).json(${moduleName});
-  }
-
-  @CatchErrors
   async update(req: Request, res: Response): Promise<void> {
-    const ${moduleName} = await this.${moduleName}ervice.update(
+    const ${moduleName} = await this.${moduleName}Service.update(
       +req.params.id,
       req.body
     );

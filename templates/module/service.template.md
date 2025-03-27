@@ -1,5 +1,5 @@
 export class ${ModuleName}Service {
-  create(createUserDto: CreateUserDto) {
+  create(dto: any) {
     return `This action adds a new ${moduleName}`;
   }
 
@@ -11,7 +11,7 @@ export class ${ModuleName}Service {
     return `This action returns a #${id} ${moduleName}`;
   }
 
-  update(id: number, update${ModuleName}Dto: any) {
+  update(id: number, dto: any) {
     return `This action updates a #${id} ${moduleName}`;
   }
 

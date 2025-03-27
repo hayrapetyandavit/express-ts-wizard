@@ -1,13 +1,16 @@
 {
   "name": "express-ts-wizard",
   "version": "1.0.0",
+  "description": "CLI for scaffolding TypeScript Express apps and generating modules.",
+  "author": "Davit Hayrapetyan",
+  "license": "MIT",
+  "repository": "",
   "main": "index.js",
+  "bin": {
+    "create-app": "./bin/create-app.sh"
+  },
   "scripts": {
-    "postinstall": "chmod +x bin/*.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "description": "CLI for scaffolding TypeScript Express apps and generating modules."
+  "keywords": []
 }
