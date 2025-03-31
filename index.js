@@ -5,7 +5,7 @@ const { execSync } = require('child_process');
 
 const targetDir = process.cwd();
 const templateDir = path.join(__dirname, 'app');
-console.log(templateDir, '++++++')
+
 async function copyDir(src, dest) {
   if (!fs.existsSync(dest)) {
     fs.mkdirSync(dest, { recursive: true });
@@ -37,6 +37,7 @@ async function copyDir(src, dest) {
     console.log('✅ Template files copied.');
 
     // Install dependencies
+    // ask is install kdependencies?
     console.log('📦 Installing dependencies...');
     execSync('npm install', { stdio: 'inherit' });
 
