@@ -5,6 +5,9 @@ read name
 
 MODULE_NAME=$(echo "$name" | xargs)
 
+#TODO: check is modules exist
+mkdir "src/modules"
+
 BASE_PATH="src/modules"
 
 SUCCESS_MESSAGES=()
