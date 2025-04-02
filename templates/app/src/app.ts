@@ -1,9 +1,5 @@
 import express, { Application } from "express";
 import dotenv from "dotenv";
-
-// TODO: handle route initialization
-// import productRouter from "./modules/products/product.routes";
-
 import enableCors from "./middlewares/cors.middlewares";
 import errorHandler from "./middlewares/error.middlewares";
 
@@ -33,7 +29,7 @@ class App {
   }
 
   private initRoutes() {
-    // this.app.use("/api/product", productRouter);
+
   }
 
   public listen() {
