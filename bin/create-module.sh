@@ -61,15 +61,22 @@ create_service() {
 create_routes() {
   TEMPLATE_PATH="templates/routes.template.md"
   OUTPUT_FILE="$BASE_PATH/$MODULE_NAME/${MODULE_NAME}.routes.ts"
+  APP_PATH="src/app.ts"
 
   sed -e "s/\${ModuleName}/$CAPITALIZED_MODULE_NAME/g" \
       -e "s/\${moduleName}/$MODULE_NAME/g" \
       "$TEMPLATE_PATH" > "$OUTPUT_FILE"
 
+  sed -i.bak -e '/^import /a import +'$MODULE_NAME'Router from "./modules/$MODULE_NAME/$MODULE_NAME.routes";' "$APP_PATH"
+  sed -i.bak -e "/private initRoutes() {/,/}/ { /this.app.use(.*);/!b; a\\
+      this.app.use(\"/api/$MODULE_NAME\", '$MODULE_NAME'Router);
+  }" "$APP_PATH"}
+
   if [ $? -ne 0 ]; then
     echo "$ERROR_ICON Failed to create $OUTPUT_FILE."
     clean_up
   fi
+
   SUCCESS_MESSAGES+=("$SUCCESS_ICON $OUTPUT_FILE created successfully!")
 }
 
