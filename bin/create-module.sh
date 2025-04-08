@@ -1,14 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "📦 What would you like to name the module? (e.g., \"users\")"
 read name
 
 MODULE_NAME=$(echo "$name" | xargs)
 
-#TODO: check is modules exist
-mkdir "src/modules"
-
 BASE_PATH="src/modules"
+
+if [ ! -d "$BASE_PATH" ]; then
+  mkdir -p "$BASE_PATH"
+fi
 
 SUCCESS_MESSAGES=()
 SUCCESS_ICON="✅"
