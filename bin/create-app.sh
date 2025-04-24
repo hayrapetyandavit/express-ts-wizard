@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+echo "📁 Current directory: $(pwd)"
 APP_NAME=$1
 
 SOURCE_DIR="./templates/app"
