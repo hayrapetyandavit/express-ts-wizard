@@ -7,6 +7,10 @@ MODULE_NAME=$(echo "$name" | xargs)
 
 BASE_PATH="src/modules"
 
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+PACKAGE_PATH="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
+
+
 if [ ! -d "$BASE_PATH" ]; then
   mkdir -p "$BASE_PATH"
 fi
@@ -30,7 +34,7 @@ clean_up() {
 CAPITALIZED_MODULE_NAME="$(echo "$MODULE_NAME" | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')"
 
 create_controller() {
-  TEMPLATE_PATH="templates/controller.template.md"
+  TEMPLATE_PATH="$PACKAGE_PATH/templates/module/controller.template.md"
   OUTPUT_FILE="$BASE_PATH/$MODULE_NAME/${MODULE_NAME}.controller.ts"
 
   sed -e "s/\${ModuleName}/$CAPITALIZED_MODULE_NAME/g" \
@@ -45,7 +49,7 @@ create_controller() {
 }
 
 create_service() {
-  TEMPLATE_PATH="templates/service.template.md"
+  TEMPLATE_PATH="$PACKAGE_PATH/templates/module/service.template.md"
   OUTPUT_FILE="$BASE_PATH/$MODULE_NAME/${MODULE_NAME}.service.ts"
 
   sed -e "s/\${ModuleName}/$CAPITALIZED_MODULE_NAME/g" \
@@ -60,7 +64,7 @@ create_service() {
 }
 
 create_routes() {
-  TEMPLATE_PATH="templates/routes.template.md"
+  TEMPLATE_PATH="$PACKAGE_PATH/templates/module/routes.template.md"
   OUTPUT_FILE="$BASE_PATH/$MODULE_NAME/${MODULE_NAME}.routes.ts"
   APP_PATH="src/app.ts"
 
@@ -68,10 +72,13 @@ create_routes() {
       -e "s/\${moduleName}/$MODULE_NAME/g" \
       "$TEMPLATE_PATH" > "$OUTPUT_FILE"
 
-  sed -i.bak -e '/^import /a import +'$MODULE_NAME'Router from "./modules/$MODULE_NAME/$MODULE_NAME.routes";' "$APP_PATH"
-  sed -i.bak -e "/private initRoutes() {/,/}/ { /this.app.use(.*);/!b; a\\
-      this.app.use(\"/api/$MODULE_NAME\", '$MODULE_NAME'Router);
-  }" "$APP_PATH"}
+  sed -i.bak -e "/^import /{ :a; n; /^import /ba; i\\
+import ${MODULE_NAME}Router from \"./modules/${MODULE_NAME}/${MODULE_NAME}.routes\";
+  }" "$APP_PATH"
+  
+  sed -i.bak -e "/private initRoutes() {/,/}/ { /^  }/i\\
+    this.app.use(\"/api/${MODULE_NAME}\", ${MODULE_NAME}Router);
+  }" "$APP_PATH"
 
   if [ $? -ne 0 ]; then
     echo "$ERROR_ICON Failed to create $OUTPUT_FILE."

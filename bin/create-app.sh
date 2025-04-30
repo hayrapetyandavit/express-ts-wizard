@@ -2,8 +2,12 @@
 
 APP_NAME=$1
 
-SOURCE_DIR="./templates/app"
 DEST_DIR="./$APP_NAME"
+
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+PACKAGE_PATH="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
+
+SOURCE_DIR="$PACKAGE_PATH/templates/app"
 
 # Copy the app folder to the current directory
 cp -r "$SOURCE_DIR" "$DEST_DIR"
