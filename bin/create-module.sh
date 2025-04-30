@@ -72,10 +72,13 @@ create_routes() {
       -e "s/\${moduleName}/$MODULE_NAME/g" \
       "$TEMPLATE_PATH" > "$OUTPUT_FILE"
 
-  sed -i.bak -e '/^import /a import +'$MODULE_NAME'Router from "./modules/$MODULE_NAME/$MODULE_NAME.routes";' "$APP_PATH"
-  sed -i.bak -e "/private initRoutes() {/,/}/ { /this.app.use(.*);/!b; a\\
-      this.app.use(\"/api/$MODULE_NAME\", '$MODULE_NAME'Router);
-  }" "$APP_PATH"}
+  sed -i.bak -e "/^import /{ :a; n; /^import /ba; i\\
+import ${MODULE_NAME}Router from \"./modules/${MODULE_NAME}/${MODULE_NAME}.routes\";
+  }" "$APP_PATH"
+  
+  sed -i.bak -e "/private initRoutes() {/,/}/ { /^  }/i\\
+    this.app.use(\"/api/${MODULE_NAME}\", ${MODULE_NAME}Router);
+  }" "$APP_PATH"
 
   if [ $? -ne 0 ]; then
     echo "$ERROR_ICON Failed to create $OUTPUT_FILE."
