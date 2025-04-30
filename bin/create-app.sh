@@ -12,7 +12,12 @@ SOURCE_DIR="$PACKAGE_PATH/templates/app"
 # Copy the app folder to the current directory
 cp -r "$SOURCE_DIR" "$DEST_DIR"
 
-echo "🚀 express application created successfully"
+if [ $? -ne 0 ]; then
+    echo "❌ Error: Failed to create application"
+    exit 1
+fi
+
+echo "🚀 Express application created successfully"
 
 # Ask if the user wants to install dependencies
 read -p "Do you want to install dependencies? (y/N): " INSTALL_DEPS
@@ -25,5 +30,5 @@ if [[ "$INSTALL_DEPS" == "y" || "$INSTALL_DEPS" == "yes" ]]; then
     npm install
     echo "Dependencies installed."
 else
-    echo "Skipping dependency installation."
+    echo "ℹ️ Skipping dependency installation."
 fi
